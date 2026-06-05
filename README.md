@@ -97,4 +97,4 @@ Any modern browser (Chrome, Firefox, Safari, Edge). No build step or server requ
 
 ## License
 
-<!-- TODO: choose a license -->
+Released under the [MIT License](LICENSE).
