@@ -16,10 +16,6 @@
             background: #fff;
             color: #000;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         /* Setup overlay */
@@ -42,13 +38,13 @@
             border: 1px solid #ddd;
             border-radius: 12px;
             padding: 40px;
-            width: 400px;
+            width: 440px;
             max-width: 90vw;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
 
         .setup-card h1 {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 600;
             margin-bottom: 28px;
             text-align: center;
@@ -60,7 +56,7 @@
 
         .form-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 500;
             margin-bottom: 6px;
             color: #333;
@@ -72,7 +68,7 @@
             padding: 10px 12px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             color: #000;
             background: #fff;
             outline: none;
@@ -95,10 +91,10 @@
 
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 1.05rem;
             font-weight: 500;
             cursor: pointer;
             transition: opacity 0.2s;
@@ -118,7 +114,7 @@
         .btn-link {
             background: none;
             color: #555;
-            font-size: 0.82rem;
+            font-size: 0.95rem;
             text-decoration: underline;
             padding: 8px 0;
             width: 100%;
@@ -132,12 +128,30 @@
             color: #000;
         }
 
+        .setup-cancel {
+            background: none;
+            color: #999;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            padding: 8px 0;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            margin-top: 2px;
+            display: none;
+        }
+
+        .setup-cancel:hover {
+            color: #000;
+        }
+
         /* Timer view */
         #timer-view {
             display: none;
             width: 100%;
             min-height: 100vh;
-            padding: 30px;
+            padding: 30px 40px 80px;
             flex-direction: column;
             align-items: center;
         }
@@ -148,28 +162,36 @@
 
         .timer-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 36px;
         }
 
         .current-time-label {
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             color: #777;
             margin-bottom: 4px;
         }
 
         .current-time {
-            font-size: 3rem;
+            font-size: 4rem;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+        }
+
+        /* Card grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 1400px;
         }
 
         .exam-card {
-            border: 3px solid;
-            border-radius: 12px;
-            padding: 32px 40px;
-            width: 520px;
-            max-width: 92vw;
+            border: 4px solid;
+            border-radius: 14px;
+            padding: 28px 32px;
+            position: relative;
         }
 
         .exam-card.ib {
@@ -180,20 +202,37 @@
             border-color: #dc2626;
         }
 
+        .card-remove {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: #bbb;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px;
+        }
+
+        .card-remove:hover {
+            color: #666;
+        }
+
         .exam-name {
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .exam-board-label {
-            font-size: 0.8rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
             text-align: center;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .exam-card.ib .exam-board-label {
@@ -205,10 +244,10 @@
         }
 
         .exam-duration-label {
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             color: #777;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .time-rows {
@@ -221,18 +260,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 16px;
+            padding: 10px 18px;
             border-radius: 6px;
             transition: background-color 0.3s, color 0.3s;
         }
 
         .time-row .label {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 2.6rem;
+            font-weight: 700;
         }
 
         .time-row .value {
-            font-size: 1rem;
+            font-size: 2.6rem;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
         }
@@ -248,19 +287,19 @@
         }
 
         .countdown-section {
-            margin-top: 24px;
+            margin-top: 20px;
             text-align: center;
         }
 
         .countdown-status {
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             font-weight: 500;
             color: #777;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .countdown-time {
-            font-size: 3.2rem;
+            font-size: 3.6rem;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
         }
@@ -278,33 +317,33 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 16px;
+            padding: 10px 18px;
             border-radius: 6px;
         }
 
         .start-edit-row .label {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 2.6rem;
+            font-weight: 700;
         }
 
         .start-edit-row .value-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .start-edit-row .value {
-            font-size: 1rem;
+            font-size: 2.6rem;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
         }
 
         .edit-start-input {
-            width: 100px;
-            padding: 4px 8px;
+            width: 110px;
+            padding: 5px 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             font-weight: 700;
             font-family: inherit;
             text-align: center;
@@ -315,8 +354,8 @@
             background: none;
             border: 1px solid #ccc;
             border-radius: 4px;
-            padding: 3px 10px;
-            font-size: 0.75rem;
+            padding: 4px 12px;
+            font-size: 0.85rem;
             cursor: pointer;
             color: #555;
         }
@@ -326,41 +365,59 @@
             color: #000;
         }
 
+        /* Add timer button (inside grid) */
+        .add-card {
+            border: 3px dashed #ddd;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .add-card:hover {
+            border-color: #aaa;
+            background: #fafafa;
+        }
+
+        .add-card-content {
+            text-align: center;
+            color: #aaa;
+        }
+
+        .add-card-content .plus {
+            font-size: 3rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .add-card-content .add-label {
+            font-size: 1.1rem;
+            margin-top: 6px;
+        }
+
         /* Bottom controls */
         .bottom-controls {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            right: 24px;
             display: flex;
             gap: 10px;
         }
 
-        .btn-download {
+        .btn-bottom {
             background: #f5f5f5;
             border: 1px solid #ddd;
             border-radius: 6px;
-            padding: 8px 16px;
-            font-size: 0.8rem;
+            padding: 10px 18px;
+            font-size: 0.95rem;
             color: #555;
             cursor: pointer;
         }
 
-        .btn-download:hover {
-            background: #eee;
-            color: #000;
-        }
-
-        .btn-new {
-            background: #f5f5f5;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-size: 0.8rem;
-            color: #555;
-            cursor: pointer;
-        }
-
-        .btn-new:hover {
+        .btn-bottom:hover {
             background: #eee;
             color: #000;
         }
@@ -399,8 +456,9 @@
                 <label for="start-time">Start Time</label>
                 <input type="time" id="start-time" value="09:00">
             </div>
-            <button class="btn btn-primary" id="btn-start">Start Timer</button>
-            <button class="btn-link" id="btn-load">Load saved timer</button>
+            <button class="btn btn-primary" id="btn-start">Add Timer</button>
+            <button class="btn-link" id="btn-load">Load saved timers</button>
+            <button class="setup-cancel" id="btn-cancel">Cancel</button>
             <input type="file" id="file-input" accept=".json">
         </div>
     </div>
@@ -412,33 +470,27 @@
             <div class="current-time" id="current-time">--:--:--</div>
         </div>
 
-        <div class="exam-card" id="exam-card">
-            <div class="exam-board-label" id="display-board"></div>
-            <div class="exam-name" id="display-name"></div>
-            <div class="exam-duration-label" id="display-duration"></div>
-
-            <div class="time-rows" id="time-rows">
-                <!-- Rows injected by JS -->
-            </div>
-
-            <div class="countdown-section">
-                <div class="countdown-status" id="countdown-status"></div>
-                <div class="countdown-time" id="countdown-time">--:--</div>
-            </div>
+        <div class="cards-grid" id="cards-grid">
+            <!-- Exam cards and add-card injected by JS -->
         </div>
 
         <div class="bottom-controls">
-            <button class="btn-new" id="btn-new-timer">New Timer</button>
-            <button class="btn-download" id="btn-download">Download Timer</button>
+            <button class="btn-bottom" id="btn-download">Download Timers</button>
         </div>
     </div>
 
     <script>
+        // State
+        const timers = []; // array of { id, board, name, durationMin, startMin, times, el }
+        let tickInterval = null;
+        let nextId = 0;
+        const MAX_TIMERS = 6;
+
         // DOM refs
         const setupOverlay = document.getElementById('setup-overlay');
         const timerView = document.getElementById('timer-view');
-        const examCard = document.getElementById('exam-card');
-        const timeRowsContainer = document.getElementById('time-rows');
+        const cardsGrid = document.getElementById('cards-grid');
+        const btnCancel = document.getElementById('btn-cancel');
 
         // Form refs
         const examBoardSelect = document.getElementById('exam-board');
@@ -446,10 +498,6 @@
         const durationHoursInput = document.getElementById('duration-hours');
         const durationMinutesInput = document.getElementById('duration-minutes');
         const startTimeInput = document.getElementById('start-time');
-
-        // State
-        let timerData = null;
-        let tickInterval = null;
 
         // Helpers
         function pad(n) {
@@ -473,79 +521,108 @@
             return `${pad(h)}:${pad(m)}`;
         }
 
-        function nowMinutes() {
-            const now = new Date();
-            return now.getHours() * 60 + now.getMinutes();
-        }
-
         function nowSeconds() {
             const now = new Date();
             return now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
         }
 
-        // Compute key times
+        function nowMinutes() {
+            const now = new Date();
+            return now.getHours() * 60 + now.getMinutes();
+        }
+
+        // Compute key times for a timer
         function computeTimes(board, startMin, durationMin) {
             const times = [];
             const endMin = startMin + durationMin;
             const isIB = board === 'IB';
 
             if (isIB) {
-                const readingMin = startMin - 5;
-                times.push({ key: 'reading', label: 'READING', time: readingMin, warnType: 'milestone' });
+                times.push({ key: 'reading', label: 'READING', time: startMin - 5 });
             }
 
-            times.push({ key: 'start', label: 'START', time: startMin, warnType: 'milestone' });
+            times.push({ key: 'start', label: 'START', time: startMin });
 
             if (isIB && durationMin > 30) {
-                times.push({ key: '30min', label: '30 MIN LEFT', time: endMin - 30, warnType: 'warning' });
+                times.push({ key: '30min', label: '30 MIN LEFT', time: endMin - 30 });
             }
 
             if (durationMin > 5) {
-                times.push({ key: '5min', label: '5 MIN LEFT', time: endMin - 5, warnType: 'warning' });
+                times.push({ key: '5min', label: '5 MIN LEFT', time: endMin - 5 });
             }
 
-            times.push({ key: 'end', label: 'END', time: endMin, warnType: 'milestone' });
+            times.push({ key: 'end', label: 'END', time: endMin });
 
             return times;
         }
 
-        // Build timer
-        function buildTimer(data) {
-            timerData = data;
-            const { board, name, durationMin, startMin } = data;
-            const isIB = board === 'IB';
+        // Show setup form
+        function showSetup() {
+            // Reset form
+            examNameInput.value = '';
+            durationHoursInput.value = '1';
+            durationMinutesInput.value = '30';
+            startTimeInput.value = '09:00';
+            examBoardSelect.value = 'IB';
 
-            // Card styling
-            examCard.className = 'exam-card ' + (isIB ? 'ib' : 'igcse');
-            document.getElementById('display-board').textContent = board;
-            document.getElementById('display-name').textContent = name;
-            document.getElementById('display-duration').textContent = minutesToHM(durationMin);
+            // Show cancel button if timers already exist
+            btnCancel.style.display = timers.length > 0 ? 'block' : 'none';
 
-            // Compute times
-            timerData.times = computeTimes(board, startMin, durationMin);
+            setupOverlay.classList.remove('hidden');
+        }
 
-            // Render rows
-            timeRowsContainer.innerHTML = '';
-            timerData.times.forEach((t, i) => {
+        // Build a card DOM element for a timer
+        function buildCard(timer) {
+            const isIB = timer.board === 'IB';
+            const card = document.createElement('div');
+            card.className = 'exam-card ' + (isIB ? 'ib' : 'igcse');
+            card.dataset.timerId = timer.id;
+
+            // Remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'card-remove';
+            removeBtn.textContent = '\u00d7';
+            removeBtn.addEventListener('click', () => removeTimer(timer.id));
+            card.appendChild(removeBtn);
+
+            // Header
+            const boardLabel = document.createElement('div');
+            boardLabel.className = 'exam-board-label';
+            boardLabel.textContent = timer.board;
+            card.appendChild(boardLabel);
+
+            const nameLabel = document.createElement('div');
+            nameLabel.className = 'exam-name';
+            nameLabel.textContent = timer.name;
+            card.appendChild(nameLabel);
+
+            const durLabel = document.createElement('div');
+            durLabel.className = 'exam-duration-label';
+            durLabel.textContent = minutesToHM(timer.durationMin);
+            card.appendChild(durLabel);
+
+            // Time rows
+            const rowsContainer = document.createElement('div');
+            rowsContainer.className = 'time-rows';
+
+            timer.times.forEach(t => {
                 if (t.key === 'start') {
-                    // Editable start row
                     const row = document.createElement('div');
                     row.className = 'start-edit-row';
-                    row.dataset.key = t.key;
+                    row.dataset.key = 'start';
                     row.innerHTML = `
                         <span class="label">${t.label}</span>
                         <span class="value-group">
-                            <span class="value" id="start-display">${minutesToTimeStr(t.time)}</span>
-                            <input type="time" class="edit-start-input" id="edit-start-input" value="${minutesToTimeStr(t.time)}">
-                            <button class="btn-edit" id="btn-edit-start">Edit</button>
+                            <span class="value start-display">${minutesToTimeStr(t.time)}</span>
+                            <input type="time" class="edit-start-input" value="${minutesToTimeStr(t.time)}">
+                            <button class="btn-edit">Edit</button>
                         </span>
                     `;
-                    timeRowsContainer.appendChild(row);
+                    rowsContainer.appendChild(row);
 
-                    // Wire up edit
-                    const btnEdit = row.querySelector('#btn-edit-start');
-                    const editInput = row.querySelector('#edit-start-input');
-                    const startDisplay = row.querySelector('#start-display');
+                    const btnEdit = row.querySelector('.btn-edit');
+                    const editInput = row.querySelector('.edit-start-input');
+                    const startDisplay = row.querySelector('.start-display');
 
                     btnEdit.addEventListener('click', () => {
                         if (editInput.style.display === 'none' || editInput.style.display === '') {
@@ -554,12 +631,12 @@
                             btnEdit.textContent = 'Save';
                         } else {
                             const newStart = timeStrToMinutes(editInput.value);
-                            timerData.startMin = newStart;
-                            timerData.times = computeTimes(timerData.board, newStart, timerData.durationMin);
+                            timer.startMin = newStart;
+                            timer.times = computeTimes(timer.board, newStart, timer.durationMin);
                             editInput.style.display = 'none';
                             startDisplay.style.display = 'inline';
                             btnEdit.textContent = 'Edit';
-                            rebuildRows();
+                            refreshCardRows(timer);
                         }
                     });
                 } else {
@@ -570,108 +647,192 @@
                         <span class="label">${t.label}</span>
                         <span class="value">${minutesToTimeStr(t.time)}</span>
                     `;
-                    timeRowsContainer.appendChild(row);
+                    rowsContainer.appendChild(row);
                 }
             });
 
-            // Show timer view
-            setupOverlay.classList.add('hidden');
-            timerView.classList.add('active');
+            card.appendChild(rowsContainer);
 
-            // Start ticking
-            if (tickInterval) clearInterval(tickInterval);
-            tick();
-            tickInterval = setInterval(tick, 1000);
+            // Countdown
+            const countdownSection = document.createElement('div');
+            countdownSection.className = 'countdown-section';
+            countdownSection.innerHTML = `
+                <div class="countdown-status"></div>
+                <div class="countdown-time">--:--</div>
+            `;
+            card.appendChild(countdownSection);
+
+            timer.el = card;
+            return card;
         }
 
-        function rebuildRows() {
-            // Re-render all row values without recreating DOM for start
-            const rows = timeRowsContainer.children;
-            timerData.times.forEach((t, i) => {
+        // Refresh row values after start time edit
+        function refreshCardRows(timer) {
+            const rowsContainer = timer.el.querySelector('.time-rows');
+            const rows = rowsContainer.children;
+            timer.times.forEach((t, i) => {
                 const row = rows[i];
                 if (t.key === 'start') {
-                    row.querySelector('#start-display').textContent = minutesToTimeStr(t.time);
-                    row.querySelector('#edit-start-input').value = minutesToTimeStr(t.time);
+                    row.querySelector('.start-display').textContent = minutesToTimeStr(t.time);
+                    row.querySelector('.edit-start-input').value = minutesToTimeStr(t.time);
                 } else {
                     row.querySelector('.value').textContent = minutesToTimeStr(t.time);
                 }
             });
         }
 
+        // Render the add-timer placeholder card
+        function renderAddCard() {
+            const existing = cardsGrid.querySelector('.add-card');
+            if (existing) existing.remove();
+
+            if (timers.length < MAX_TIMERS) {
+                const addCard = document.createElement('div');
+                addCard.className = 'add-card';
+                addCard.innerHTML = `
+                    <div class="add-card-content">
+                        <div class="plus">+</div>
+                        <div class="add-label">Add Timer</div>
+                    </div>
+                `;
+                addCard.addEventListener('click', showSetup);
+                cardsGrid.appendChild(addCard);
+            }
+        }
+
+        // Add a timer
+        function addTimer(data) {
+            if (timers.length >= MAX_TIMERS) {
+                alert('Maximum of 6 timers reached.');
+                return;
+            }
+
+            const timer = {
+                id: nextId++,
+                board: data.board,
+                name: data.name,
+                durationMin: data.durationMin,
+                startMin: data.startMin,
+                times: computeTimes(data.board, data.startMin, data.durationMin),
+                el: null
+            };
+
+            timers.push(timer);
+            const card = buildCard(timer);
+
+            // Insert before add-card placeholder
+            const addCard = cardsGrid.querySelector('.add-card');
+            if (addCard) {
+                cardsGrid.insertBefore(card, addCard);
+            } else {
+                cardsGrid.appendChild(card);
+            }
+
+            renderAddCard();
+
+            // Show timer view, hide setup
+            setupOverlay.classList.add('hidden');
+            timerView.classList.add('active');
+
+            // Start tick if not running
+            if (!tickInterval) {
+                tick();
+                tickInterval = setInterval(tick, 1000);
+            }
+        }
+
+        // Remove a timer
+        function removeTimer(id) {
+            const idx = timers.findIndex(t => t.id === id);
+            if (idx === -1) return;
+            const timer = timers[idx];
+            timer.el.remove();
+            timers.splice(idx, 1);
+
+            renderAddCard();
+
+            // If no timers left, go back to setup
+            if (timers.length === 0) {
+                clearInterval(tickInterval);
+                tickInterval = null;
+                timerView.classList.remove('active');
+                showSetup();
+            }
+        }
+
+        // Tick: update current time and all timer cards
         function tick() {
-            // Update current time
             const now = new Date();
             document.getElementById('current-time').textContent =
                 `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 
-            if (!timerData) return;
-
             const currentMin = nowMinutes();
             const currentSec = nowSeconds();
-            const isIB = timerData.board === 'IB';
-            const highlightClass = isIB ? 'highlighted-ib' : 'highlighted-igcse';
 
-            const times = timerData.times;
-            const endTime = times.find(t => t.key === 'end');
-            const startTime = times.find(t => t.key === 'start');
-            const readingTime = times.find(t => t.key === 'reading');
+            timers.forEach(timer => {
+                const isIB = timer.board === 'IB';
+                const highlightClass = isIB ? 'highlighted-ib' : 'highlighted-igcse';
+                const rowsContainer = timer.el.querySelector('.time-rows');
+                const rows = rowsContainer.children;
 
-            // Highlight logic: highlight a row when current time >= that row's time
-            const rows = timeRowsContainer.children;
-            times.forEach((t, i) => {
-                const row = rows[i];
-                if (!row) return;
+                // Highlight rows
+                timer.times.forEach((t, i) => {
+                    const row = rows[i];
+                    if (!row) return;
+                    row.classList.remove('highlighted-ib', 'highlighted-igcse');
+                    if (t.key === 'start') return;
+                    if (currentMin >= t.time) {
+                        row.classList.add(highlightClass);
+                    }
+                });
 
-                // Remove highlight classes
-                row.classList.remove('highlighted-ib', 'highlighted-igcse');
+                // Countdown
+                const statusEl = timer.el.querySelector('.countdown-status');
+                const countdownEl = timer.el.querySelector('.countdown-time');
 
-                if (t.key === 'start') return; // start row doesn't highlight
+                const endTime = timer.times.find(t => t.key === 'end');
+                const startTime = timer.times.find(t => t.key === 'start');
+                const readingTime = timer.times.find(t => t.key === 'reading');
 
-                if (currentMin >= t.time) {
-                    row.classList.add(highlightClass);
+                const endSec = endTime.time * 60;
+                const startSec = startTime.time * 60;
+                const readingSec = readingTime ? readingTime.time * 60 : null;
+
+                if (currentSec >= endSec) {
+                    statusEl.textContent = 'EXAM ENDED';
+                    countdownEl.textContent = '00:00';
+                } else if (currentSec >= startSec) {
+                    statusEl.textContent = 'Time Remaining';
+                    const rem = endSec - currentSec;
+                    const rh = Math.floor(rem / 3600);
+                    const rm = Math.floor((rem % 3600) / 60);
+                    const rs = rem % 60;
+                    countdownEl.textContent = rh > 0
+                        ? `${pad(rh)}:${pad(rm)}:${pad(rs)}`
+                        : `${pad(rm)}:${pad(rs)}`;
+                } else if (readingSec !== null && currentSec >= readingSec) {
+                    statusEl.textContent = 'Reading Time';
+                    const rem = startSec - currentSec;
+                    const rm = Math.floor(rem / 60);
+                    const rs = rem % 60;
+                    countdownEl.textContent = `${pad(rm)}:${pad(rs)}`;
+                } else {
+                    const waitTarget = readingSec !== null ? readingSec : startSec;
+                    statusEl.textContent = 'Waiting to Start';
+                    const rem = waitTarget - currentSec;
+                    const rh = Math.floor(rem / 3600);
+                    const rm = Math.floor((rem % 3600) / 60);
+                    const rs = rem % 60;
+                    countdownEl.textContent = rh > 0
+                        ? `${pad(rh)}:${pad(rm)}:${pad(rs)}`
+                        : `${pad(rm)}:${pad(rs)}`;
                 }
             });
-
-            // Countdown logic
-            const statusEl = document.getElementById('countdown-status');
-            const countdownEl = document.getElementById('countdown-time');
-
-            const endSec = endTime.time * 60;
-            const startSec = startTime.time * 60;
-            const readingSec = readingTime ? readingTime.time * 60 : null;
-
-            if (currentSec >= endSec) {
-                statusEl.textContent = 'EXAM ENDED';
-                countdownEl.textContent = '00:00';
-            } else if (currentSec >= startSec) {
-                statusEl.textContent = 'Time Remaining';
-                const remaining = endSec - currentSec;
-                const rh = Math.floor(remaining / 3600);
-                const rm = Math.floor((remaining % 3600) / 60);
-                const rs = remaining % 60;
-                countdownEl.textContent = rh > 0
-                    ? `${pad(rh)}:${pad(rm)}:${pad(rs)}`
-                    : `${pad(rm)}:${pad(rs)}`;
-            } else if (readingSec !== null && currentSec >= readingSec) {
-                statusEl.textContent = 'Reading Time';
-                const remaining = startSec - currentSec;
-                const rm = Math.floor(remaining / 60);
-                const rs = remaining % 60;
-                countdownEl.textContent = `${pad(rm)}:${pad(rs)}`;
-            } else {
-                const waitTarget = readingSec !== null ? readingSec : startSec;
-                statusEl.textContent = 'Waiting to Start';
-                const remaining = waitTarget - currentSec;
-                const rh = Math.floor(remaining / 3600);
-                const rm = Math.floor((remaining % 3600) / 60);
-                const rs = remaining % 60;
-                countdownEl.textContent = rh > 0
-                    ? `${pad(rh)}:${pad(rm)}:${pad(rs)}`
-                    : `${pad(rm)}:${pad(rs)}`;
-            }
         }
 
-        // Start button
+        // --- Event listeners ---
+
+        // Add timer from form
         document.getElementById('btn-start').addEventListener('click', () => {
             const board = examBoardSelect.value;
             const name = examNameInput.value.trim() || 'Unnamed Exam';
@@ -685,7 +846,12 @@
                 return;
             }
 
-            buildTimer({ board, name, durationMin, startMin });
+            addTimer({ board, name, durationMin, startMin });
+        });
+
+        // Cancel button (go back to timer view)
+        btnCancel.addEventListener('click', () => {
+            setupOverlay.classList.add('hidden');
         });
 
         // Load button
@@ -699,11 +865,25 @@
             const reader = new FileReader();
             reader.onload = (evt) => {
                 try {
-                    const data = JSON.parse(evt.target.result);
-                    if (data.board && data.name && data.durationMin && data.startMin !== undefined) {
-                        buildTimer(data);
-                    } else {
-                        alert('Invalid timer file.');
+                    let data = JSON.parse(evt.target.result);
+
+                    // Support both single timer and array format
+                    if (!Array.isArray(data)) data = [data];
+
+                    // Clear existing timers
+                    timers.forEach(t => t.el.remove());
+                    timers.length = 0;
+                    renderAddCard();
+
+                    data.forEach(d => {
+                        if (d.board && d.name && d.durationMin && d.startMin !== undefined) {
+                            addTimer(d);
+                        }
+                    });
+
+                    if (timers.length === 0) {
+                        alert('No valid timers found in file.');
+                        showSetup();
                     }
                 } catch {
                     alert('Could not read timer file.');
@@ -715,13 +895,13 @@
 
         // Download button
         document.getElementById('btn-download').addEventListener('click', () => {
-            if (!timerData) return;
-            const saveData = {
-                board: timerData.board,
-                name: timerData.name,
-                durationMin: timerData.durationMin,
-                startMin: timerData.startMin
-            };
+            if (timers.length === 0) return;
+            const saveData = timers.map(t => ({
+                board: t.board,
+                name: t.name,
+                durationMin: t.durationMin,
+                startMin: t.startMin
+            }));
             const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -731,13 +911,8 @@
             URL.revokeObjectURL(url);
         });
 
-        // New timer button
-        document.getElementById('btn-new-timer').addEventListener('click', () => {
-            if (tickInterval) clearInterval(tickInterval);
-            timerData = null;
-            timerView.classList.remove('active');
-            setupOverlay.classList.remove('hidden');
-        });
+        // Initial state: show setup
+        showSetup();
     </script>
 </body>
 </html>
