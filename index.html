@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Timer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #fff;
+            color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Setup overlay */
+        #setup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        #setup-overlay.hidden {
+            display: none;
+        }
+
+        .setup-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 40px;
+            width: 400px;
+            max-width: 90vw;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .setup-card h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #000;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #555;
+        }
+
+        .duration-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .duration-row input {
+            flex: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn-primary {
+            background: #000;
+            color: #fff;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-link {
+            background: none;
+            color: #555;
+            font-size: 0.82rem;
+            text-decoration: underline;
+            padding: 8px 0;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            margin-top: 4px;
+        }
+
+        .btn-link:hover {
+            color: #000;
+        }
+
+        /* Timer view */
+        #timer-view {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            padding: 30px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #timer-view.active {
+            display: flex;
+        }
+
+        .timer-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .current-time-label {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 4px;
+        }
+
+        .current-time {
+            font-size: 3rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 1px;
+        }
+
+        .exam-card {
+            border: 3px solid;
+            border-radius: 12px;
+            padding: 32px 40px;
+            width: 520px;
+            max-width: 92vw;
+        }
+
+        .exam-card.ib {
+            border-color: #1a56db;
+        }
+
+        .exam-card.igcse {
+            border-color: #dc2626;
+        }
+
+        .exam-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .exam-board-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .exam-card.ib .exam-board-label {
+            color: #1a56db;
+        }
+
+        .exam-card.igcse .exam-board-label {
+            color: #dc2626;
+        }
+
+        .exam-duration-label {
+            font-size: 0.85rem;
+            color: #777;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .time-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .time-row .label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .time-row .value {
+            font-size: 1rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-row.highlighted-ib {
+            background: #1a56db;
+            color: #fff;
+        }
+
+        .time-row.highlighted-igcse {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .countdown-section {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .countdown-status {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .countdown-time {
+            font-size: 3.2rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .exam-card.ib .countdown-time {
+            color: #1a56db;
+        }
+
+        .exam-card.igcse .countdown-time {
+            color: #dc2626;
+        }
+
+        /* Editable start time */
+        .start-edit-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border-radius: 6px;
+        }
+
+        .start-edit-row .label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .start-edit-row .value-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .start-edit-row .value {
+            font-size: 1rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .edit-start-input {
+            width: 100px;
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            text-align: center;
+            display: none;
+        }
+
+        .btn-edit {
+            background: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .btn-edit:hover {
+            border-color: #999;
+            color: #000;
+        }
+
+        /* Bottom controls */
+        .bottom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-download {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background: #eee;
+            color: #000;
+        }
+
+        .btn-new {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .btn-new:hover {
+            background: #eee;
+            color: #000;
+        }
+
+        /* Hidden file input */
+        #file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Setup overlay -->
+    <div id="setup-overlay">
+        <div class="setup-card">
+            <h1>Exam Timer</h1>
+            <div class="form-group">
+                <label for="exam-board">Exam Board</label>
+                <select id="exam-board">
+                    <option value="IB">IB</option>
+                    <option value="IGCSE">IGCSE</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exam-name">Exam Name</label>
+                <input type="text" id="exam-name" placeholder="e.g. English B Paper 1 HL">
+            </div>
+            <div class="form-group">
+                <label>Duration</label>
+                <div class="duration-row">
+                    <input type="number" id="duration-hours" min="0" max="5" placeholder="Hours" value="1">
+                    <input type="number" id="duration-minutes" min="0" max="59" placeholder="Minutes" value="30">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="start-time">Start Time</label>
+                <input type="time" id="start-time" value="09:00">
+            </div>
+            <button class="btn btn-primary" id="btn-start">Start Timer</button>
+            <button class="btn-link" id="btn-load">Load saved timer</button>
+            <input type="file" id="file-input" accept=".json">
+        </div>
+    </div>
+
+    <!-- Timer view -->
+    <div id="timer-view">
+        <div class="timer-header">
+            <div class="current-time-label">Current Time</div>
+            <div class="current-time" id="current-time">--:--:--</div>
+        </div>
+
+        <div class="exam-card" id="exam-card">
+            <div class="exam-board-label" id="display-board"></div>
+            <div class="exam-name" id="display-name"></div>
+            <div class="exam-duration-label" id="display-duration"></div>
+
+            <div class="time-rows" id="time-rows">
+                <!-- Rows injected by JS -->
+            </div>
+
+            <div class="countdown-section">
+                <div class="countdown-status" id="countdown-status"></div>
+                <div class="countdown-time" id="countdown-time">--:--</div>
+            </div>
+        </div>
+
+        <div class="bottom-controls">
+            <button class="btn-new" id="btn-new-timer">New Timer</button>
+            <button class="btn-download" id="btn-download">Download Timer</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM refs
+        const setupOverlay = document.getElementById('setup-overlay');
+        const timerView = document.getElementById('timer-view');
+        const examCard = document.getElementById('exam-card');
+        const timeRowsContainer = document.getElementById('time-rows');
+
+        // Form refs
+        const examBoardSelect = document.getElementById('exam-board');
+        const examNameInput = document.getElementById('exam-name');
+        const durationHoursInput = document.getElementById('duration-hours');
+        const durationMinutesInput = document.getElementById('duration-minutes');
+        const startTimeInput = document.getElementById('start-time');
+
+        // State
+        let timerData = null;
+        let tickInterval = null;
+
+        // Helpers
+        function pad(n) {
+            return String(n).padStart(2, '0');
+        }
+
+        function minutesToHM(totalMin) {
+            const h = Math.floor(totalMin / 60);
+            const m = totalMin % 60;
+            return h > 0 ? `${h}h${pad(m)}m` : `${m}m`;
+        }
+
+        function timeStrToMinutes(str) {
+            const [h, m] = str.split(':').map(Number);
+            return h * 60 + m;
+        }
+
+        function minutesToTimeStr(totalMin) {
+            const h = Math.floor(totalMin / 60) % 24;
+            const m = totalMin % 60;
+            return `${pad(h)}:${pad(m)}`;
+        }
+
+        function nowMinutes() {
+            const now = new Date();
+            return now.getHours() * 60 + now.getMinutes();
+        }
+
+        function nowSeconds() {
+            const now = new Date();
+            return now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+        }
+
+        // Compute key times
+        function computeTimes(board, startMin, durationMin) {
+            const times = [];
+            const endMin = startMin + durationMin;
+            const isIB = board === 'IB';
+
+            if (isIB) {
+                const readingMin = startMin - 5;
+                times.push({ key: 'reading', label: 'READING', time: readingMin, warnType: 'milestone' });
+            }
+
+            times.push({ key: 'start', label: 'START', time: startMin, warnType: 'milestone' });
+
+            if (isIB && durationMin > 30) {
+                times.push({ key: '30min', label: '30 MIN LEFT', time: endMin - 30, warnType: 'warning' });
+            }
+
+            if (durationMin > 5) {
+                times.push({ key: '5min', label: '5 MIN LEFT', time: endMin - 5, warnType: 'warning' });
+            }
+
+            times.push({ key: 'end', label: 'END', time: endMin, warnType: 'milestone' });
+
+            return times;
+        }
+
+        // Build timer
+        function buildTimer(data) {
+            timerData = data;
+            const { board, name, durationMin, startMin } = data;
+            const isIB = board === 'IB';
+
+            // Card styling
+            examCard.className = 'exam-card ' + (isIB ? 'ib' : 'igcse');
+            document.getElementById('display-board').textContent = board;
+            document.getElementById('display-name').textContent = name;
+            document.getElementById('display-duration').textContent = minutesToHM(durationMin);
+
+            // Compute times
+            timerData.times = computeTimes(board, startMin, durationMin);
+
+            // Render rows
+            timeRowsContainer.innerHTML = '';
+            timerData.times.forEach((t, i) => {
+                if (t.key === 'start') {
+                    // Editable start row
+                    const row = document.createElement('div');
+                    row.className = 'start-edit-row';
+                    row.dataset.key = t.key;
+                    row.innerHTML = `
+                        <span class="label">${t.label}</span>
+                        <span class="value-group">
+                            <span class="value" id="start-display">${minutesToTimeStr(t.time)}</span>
+                            <input type="time" class="edit-start-input" id="edit-start-input" value="${minutesToTimeStr(t.time)}">
+                            <button class="btn-edit" id="btn-edit-start">Edit</button>
+                        </span>
+                    `;
+                    timeRowsContainer.appendChild(row);
+
+                    // Wire up edit
+                    const btnEdit = row.querySelector('#btn-edit-start');
+                    const editInput = row.querySelector('#edit-start-input');
+                    const startDisplay = row.querySelector('#start-display');
+
+                    btnEdit.addEventListener('click', () => {
+                        if (editInput.style.display === 'none' || editInput.style.display === '') {
+                            editInput.style.display = 'inline-block';
+                            startDisplay.style.display = 'none';
+                            btnEdit.textContent = 'Save';
+                        } else {
+                            const newStart = timeStrToMinutes(editInput.value);
+                            timerData.startMin = newStart;
+                            timerData.times = computeTimes(timerData.board, newStart, timerData.durationMin);
+                            editInput.style.display = 'none';
+                            startDisplay.style.display = 'inline';
+                            btnEdit.textContent = 'Edit';
+                            rebuildRows();
+                        }
+                    });
+                } else {
+                    const row = document.createElement('div');
+                    row.className = 'time-row';
+                    row.dataset.key = t.key;
+                    row.innerHTML = `
+                        <span class="label">${t.label}</span>
+                        <span class="value">${minutesToTimeStr(t.time)}</span>
+                    `;
+                    timeRowsContainer.appendChild(row);
+                }
+            });
+
+            // Show timer view
+            setupOverlay.classList.add('hidden');
+            timerView.classList.add('active');
+
+            // Start ticking
+            if (tickInterval) clearInterval(tickInterval);
+            tick();
+            tickInterval = setInterval(tick, 1000);
+        }
+
+        function rebuildRows() {
+            // Re-render all row values without recreating DOM for start
+            const rows = timeRowsContainer.children;
+            timerData.times.forEach((t, i) => {
+                const row = rows[i];
+                if (t.key === 'start') {
+                    row.querySelector('#start-display').textContent = minutesToTimeStr(t.time);
+                    row.querySelector('#edit-start-input').value = minutesToTimeStr(t.time);
+                } else {
+                    row.querySelector('.value').textContent = minutesToTimeStr(t.time);
+                }
+            });
+        }
+
+        function tick() {
+            // Update current time
+            const now = new Date();
+            document.getElementById('current-time').textContent =
+                `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+            if (!timerData) return;
+
+            const currentMin = nowMinutes();
+            const currentSec = nowSeconds();
+            const isIB = timerData.board === 'IB';
+            const highlightClass = isIB ? 'highlighted-ib' : 'highlighted-igcse';
+
+            const times = timerData.times;
+            const endTime = times.find(t => t.key === 'end');
+            const startTime = times.find(t => t.key === 'start');
+            const readingTime = times.find(t => t.key === 'reading');
+
+            // Highlight logic: highlight a row when current time >= that row's time
+            const rows = timeRowsContainer.children;
+            times.forEach((t, i) => {
+                const row = rows[i];
+                if (!row) return;
+
+                // Remove highlight classes
+                row.classList.remove('highlighted-ib', 'highlighted-igcse');
+
+                if (t.key === 'start') return; // start row doesn't highlight
+
+                if (currentMin >= t.time) {
+                    row.classList.add(highlightClass);
+                }
+            });
+
+            // Countdown logic
+            const statusEl = document.getElementById('countdown-status');
+            const countdownEl = document.getElementById('countdown-time');
+
+            const endSec = endTime.time * 60;
+            const startSec = startTime.time * 60;
+            const readingSec = readingTime ? readingTime.time * 60 : null;
+
+            if (currentSec >= endSec) {
+                statusEl.textContent = 'EXAM ENDED';
+                countdownEl.textContent = '00:00';
+            } else if (currentSec >= startSec) {
+                statusEl.textContent = 'Time Remaining';
+                const remaining = endSec - currentSec;
+                const rh = Math.floor(remaining / 3600);
+                const rm = Math.floor((remaining % 3600) / 60);
+                const rs = remaining % 60;
+                countdownEl.textContent = rh > 0
+                    ? `${pad(rh)}:${pad(rm)}:${pad(rs)}`
+                    : `${pad(rm)}:${pad(rs)}`;
+            } else if (readingSec !== null && currentSec >= readingSec) {
+                statusEl.textContent = 'Reading Time';
+                const remaining = startSec - currentSec;
+                const rm = Math.floor(remaining / 60);
+                const rs = remaining % 60;
+                countdownEl.textContent = `${pad(rm)}:${pad(rs)}`;
+            } else {
+                const waitTarget = readingSec !== null ? readingSec : startSec;
+                statusEl.textContent = 'Waiting to Start';
+                const remaining = waitTarget - currentSec;
+                const rh = Math.floor(remaining / 3600);
+                const rm = Math.floor((remaining % 3600) / 60);
+                const rs = remaining % 60;
+                countdownEl.textContent = rh > 0
+                    ? `${pad(rh)}:${pad(rm)}:${pad(rs)}`
+                    : `${pad(rm)}:${pad(rs)}`;
+            }
+        }
+
+        // Start button
+        document.getElementById('btn-start').addEventListener('click', () => {
+            const board = examBoardSelect.value;
+            const name = examNameInput.value.trim() || 'Unnamed Exam';
+            const hours = parseInt(durationHoursInput.value) || 0;
+            const minutes = parseInt(durationMinutesInput.value) || 0;
+            const durationMin = hours * 60 + minutes;
+            const startMin = timeStrToMinutes(startTimeInput.value);
+
+            if (durationMin <= 0) {
+                alert('Please enter a valid duration.');
+                return;
+            }
+
+            buildTimer({ board, name, durationMin, startMin });
+        });
+
+        // Load button
+        document.getElementById('btn-load').addEventListener('click', () => {
+            document.getElementById('file-input').click();
+        });
+
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                try {
+                    const data = JSON.parse(evt.target.result);
+                    if (data.board && data.name && data.durationMin && data.startMin !== undefined) {
+                        buildTimer(data);
+                    } else {
+                        alert('Invalid timer file.');
+                    }
+                } catch {
+                    alert('Could not read timer file.');
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        });
+
+        // Download button
+        document.getElementById('btn-download').addEventListener('click', () => {
+            if (!timerData) return;
+            const saveData = {
+                board: timerData.board,
+                name: timerData.name,
+                durationMin: timerData.durationMin,
+                startMin: timerData.startMin
+            };
+            const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'timer.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // New timer button
+        document.getElementById('btn-new-timer').addEventListener('click', () => {
+            if (tickInterval) clearInterval(tickInterval);
+            timerData = null;
+            timerView.classList.remove('active');
+            setupOverlay.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
